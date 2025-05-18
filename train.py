@@ -11,8 +11,11 @@ from sklearn.metrics import accuracy_score, f1_score
 parser = argparse.ArgumentParser(description="Train Sign classifier model")
 parser.add_argument('--epochs', type=int, default=10)
 parser.add_argument('--lr', type=int, default=0.01) 
-parser.add_argument('--save_path', type=str, default='saved_model/best_model.pth')
+parser.add_argument('--saved_path', type=str, default='saved_model/best_model.pth')
 args = parser.parse_args()
+epochs = args.epochs 
+lr = args.lr 
+saved_path = args.saved_path
 
 # train loader
 train_data = datasets.ImageFolder(root='data/TRAIN', transform=transform)
@@ -27,8 +30,8 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 # Initialize
 model = SignNN().to(device)
 loss_function = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
-epochs = 10
+optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+epochs = epochs
 
 best_f1 = 0.0  
 
@@ -78,5 +81,5 @@ for epoch in range(epochs):
     # Lưu mô hình tốt nhất dựa trên F1 score
     if val_f1 > best_f1:
         best_f1 = val_f1
-        torch.save(model.state_dict(), 'saved_model/best_model.pth')
+        torch.save(model.state_dict(), saved_path)
         print("Saved Best Model (New Best F1 Score)")
