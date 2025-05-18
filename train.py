@@ -1,14 +1,16 @@
-from src.model import SignNN 
-import torch
 import os
+import torch
 import argparse
+import numpy as np
 from torch import nn 
+from src.model import SignNN 
 from src.utils import transform
+import matplotlib.pyplot as plt
 from torchvision import datasets
 from torch.utils.data import DataLoader 
 from torch.optim.lr_scheduler import OneCycleLR
 from sklearn.metrics import accuracy_score, f1_score
-import matplotlib.pyplot as plt
+
 
 
 parser = argparse.ArgumentParser(description="Train Sign classifier model")
@@ -103,10 +105,11 @@ for epoch in range(epochs):
         torch.save(model.state_dict(), os.path.join(saved_path,'best_f1.pt'))
         print("Saved Best Model (New Best F1 Score)")
 
-plt.plot(epochs, train_acc_log, label='Train Accuracy', marker='o')
-plt.plot(epochs, eval_acc_log, label='Validation Accuracy', marker='o')
-plt.plot(epochs, train_f1_log, label='Train F1 Score', marker='s')
-plt.plot(epochs, eval_f1_log, label='Validation F1 Score', marker='s')
+ran = np.arange(epochs)
+plt.plot(ran, train_acc_log, label='Train Accuracy', marker='o')
+plt.plot(ran, eval_acc_log, label='Validation Accuracy', marker='o')
+plt.plot(ran, train_f1_log, label='Train F1 Score', marker='s')
+plt.plot(ran, eval_f1_log, label='Validation F1 Score', marker='s')
 
 plt.xlabel('Epoch')
 plt.ylabel('Metric Value')
