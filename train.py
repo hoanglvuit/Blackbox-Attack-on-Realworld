@@ -71,4 +71,4 @@ for epoch in range(epochs):
     if val_f1 > best_f1:
         best_f1 = val_f1
         torch.save(model.state_dict(), 'saved_model/best_model.pth')
-        print("🔸 Saved Best Model (New Best F1 Score)")
+        print("Saved Best Model (New Best F1 Score)")
