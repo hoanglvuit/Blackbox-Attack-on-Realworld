@@ -9,7 +9,7 @@ class SignNN(nn.Module):
             nn.Conv2d(3, 8, kernel_size=3), 
             nn.BatchNorm2d(8),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=4), 
+            nn.MaxPool2d(kernel_size=2), 
 
             nn.Conv2d(8, 16, kernel_size=3), 
             nn.BatchNorm2d(16), 
