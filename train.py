@@ -1,10 +1,18 @@
 from src.model import SignNN 
 import torch
+import argparse
 from torch import nn 
 from src.utils import transform
 from torchvision import datasets
 from torch.utils.data import DataLoader 
 from sklearn.metrics import accuracy_score, f1_score
+
+
+parser = argparse.ArgumentParser(description="Train Sign classifier model")
+parser.add_argument('--epochs', type=int, default=10)
+parser.add_argument('--lr', type=int, default=0.01) 
+parser.add_argument('--save_path', type=str, default='saved_model/best_model.pth')
+args = parser.parse_args()
 
 # train loader
 train_data = datasets.ImageFolder(root='data/TRAIN', transform=transform)
