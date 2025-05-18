@@ -11,7 +11,7 @@ from sklearn.metrics import accuracy_score, f1_score
 
 parser = argparse.ArgumentParser(description="Train Sign classifier model")
 parser.add_argument('--epochs', type=int, default=10)
-parser.add_argument('--lr', type=int, default=0.01) 
+parser.add_argument('--lr', type=float, default=0.01) 
 parser.add_argument('--schedule', type=bool, default=False) 
 parser.add_argument('--saved_path', type=str, default='saved_model/best_model.pth')
 args = parser.parse_args()
