@@ -37,7 +37,7 @@ class SignNN(nn.Module):
             nn.MaxPool2d(kernel_size=2),
             
             nn.Flatten(),
-            nn.Linear(128, 32),
+            nn.Linear(256, 32),
             nn.ReLU(),
             nn.Dropout(0.1),
             nn.Linear(32, 9)
