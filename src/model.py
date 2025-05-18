@@ -35,7 +35,7 @@ class SignNN(nn.Module):
             nn.Linear(4*128, 32),
             nn.ReLU(),
             nn.Dropout(0.1),
-            nn.Linear(32, 8)
+            nn.Linear(32, 9)
         )
         self.mu = torch.Tensor([0.485, 0.456, 0.406]).float().view(1, 3, 1, 1).to(device)  
         self.sigma = torch.Tensor([0.229, 0.224, 0.225]).float().view(1, 3, 1, 1).to(device) 
