@@ -9,7 +9,7 @@ class SignNN(nn.Module):
             nn.Conv2d(3, 8, kernel_size=3), 
             nn.BatchNorm2d(8),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2), 
+            nn.MaxPool2d(kernel_size=4), 
 
             nn.Conv2d(8, 16, kernel_size=3), 
             nn.BatchNorm2d(16), 
@@ -30,9 +30,14 @@ class SignNN(nn.Module):
             nn.BatchNorm2d(128), 
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
+
+            nn.Conv2d(128, 256, kernel_size=3), 
+            nn.BatchNorm2d(128), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
             
             nn.Flatten(),
-            nn.Linear(4*128, 32),
+            nn.Linear(128, 32),
             nn.ReLU(),
             nn.Dropout(0.1),
             nn.Linear(32, 9)
