@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser(description="Train Sign classifier model")
 parser.add_argument('--epochs', type=int, default=10)
 parser.add_argument('--lr', type=float, default=0.01) 
 parser.add_argument('--weight_decay', type=float, default=0)
-parser.add_argument('--schedule', type=bool, default=False) 
+parser.add_argument('--schedule',  action='store_true') 
 parser.add_argument('--saved_path', type=str, default='saved_model')
 args = parser.parse_args()
 epochs = args.epochs 
@@ -41,7 +41,6 @@ model = SignNN().to(device)
 loss_function = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 schedule = OneCycleLR(optimizer, max_lr=lr, total_steps = len(train_loader)*epochs)
-epochs = epochs
 
 best_f1 = 0.0  
 train_acc_log = []
