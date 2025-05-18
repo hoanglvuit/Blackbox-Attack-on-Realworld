@@ -31,13 +31,8 @@ class SignNN(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
 
-            nn.Conv2d(128, 256, kernel_size=3), 
-            nn.BatchNorm2d(256), 
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-            
             nn.Flatten(),
-            nn.Linear(256, 32),
+            nn.Linear(4*128, 32),
             nn.ReLU(),
             nn.Dropout(0.1),
             nn.Linear(32, 9)
