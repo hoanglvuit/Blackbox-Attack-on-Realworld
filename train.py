@@ -5,6 +5,7 @@ from torch import nn
 from src.utils import transform
 from torchvision import datasets
 from torch.utils.data import DataLoader 
+from torch.optim.lr_scheduler import OneCycleLR
 from sklearn.metrics import accuracy_score, f1_score
 
 
@@ -31,6 +32,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = SignNN().to(device)
 loss_function = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+schedule = OneCycleLR(optimizer, max_lr=lr, epochs=epochs)
 epochs = epochs
 
 best_f1 = 0.0  
@@ -49,6 +51,7 @@ for epoch in range(epochs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        schedule.step()
 
         total_loss += loss.item()
 
