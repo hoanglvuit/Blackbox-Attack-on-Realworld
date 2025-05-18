@@ -32,7 +32,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = SignNN().to(device)
 loss_function = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-schedule = OneCycleLR(optimizer, max_lr=lr, total_steps = len(train_loader*epochs))
+schedule = OneCycleLR(optimizer, max_lr=lr, total_steps = len(train_loader)*epochs)
 epochs = epochs
 
 best_f1 = 0.0  
