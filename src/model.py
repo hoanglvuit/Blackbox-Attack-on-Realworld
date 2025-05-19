@@ -37,22 +37,16 @@ class SignNN(nn.Module):
             nn.Dropout(0.1),
             nn.Linear(32, 9)
         )
-        self.mu = torch.Tensor([0.485, 0.456, 0.406]).float().view(1, 3, 1, 1).to(device)  
-        self.sigma = torch.Tensor([0.229, 0.224, 0.225]).float().view(1, 3, 1, 1).to(device) 
-  
+
     def forward(self, x):
         x = x.to(device)  
-        #x_new = (x - self.mu) / self.sigma
-        x_new = x
-        return self.model(x_new)
+        return self.model(x)
 
     def predict_mulprob(self, x):
         return self.forward(x) 
     
     def predict_maxprob(self, x): 
         x = x.to(device) 
-        x_new = (x - self.mu) / self.sigma
-        x_new = x
-        pred = self.model(x_new) 
+        pred = self.model(x) 
         max_val, max_ind = torch.max(pred, dim=1)
         return max_val.item(), max_ind.item()
