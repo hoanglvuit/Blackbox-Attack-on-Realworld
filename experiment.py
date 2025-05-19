@@ -18,13 +18,14 @@ if __name__ == "__main__":
     parser.add_argument("--queries", type=int, default=10000)
     parser.add_argument("--li", type=int, default=4)
     parser.add_argument("--data_dicrectory", type=str, default="data/TEST", help="Image File directory")
-    parser.add_argument("--save_directory", type=str,default="result/idealW", help="Where to store the .npy files with the results")
+    parser.add_argument("--save_directory", type=str,default="log/idealW", help="Where to store the .npy files with the results")
     args = parser.parse_args()
     mode = args.mode
     saved_folder = args.save_directory
     os.makedirs(saved_folder, exist_ok=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Use {device}")
     model = SignNN().to(device)
     model.eval() 
     model.load_state_dict(torch.load('saved_model/best_f1.pt'))
@@ -42,7 +43,12 @@ if __name__ == "__main__":
     print("Số lượng ảnh:", len(X))
     print("Shape ảnh:", X[0].shape)
     print("Nhãn:", set(y))
-    for it, (x, label) in enumerate(zip(X, y)): 
+    for it, (x, label) in enumerate(zip(X, y)):
+        # Remove false prediction 
+        val, ind = model.predict_maxprob(x[None,:]) 
+        if ind != label : 
+            continue
+
         x = pytorch_switch(x).detach().numpy()
         params = {
             "x": x,
