@@ -42,7 +42,6 @@ if __name__ == "__main__":
     print("Số lượng ảnh:", len(X))
     print("Shape ảnh:", X[0].shape)
     print("Nhãn:", set(y))
-
     for it, (x, label) in enumerate(zip(X, y)): 
         x = pytorch_switch(x).detach().numpy()
         params = {
@@ -59,11 +58,11 @@ if __name__ == "__main__":
             "temp": args.temp
         }
         if mode == "idealW": 
-            attack = Attack_idealW(params)
+            attack = Attack_idealW(params,it)
             loss = UnTargeted_idealW(model, label)
             print("use ideal world")
         else: 
-            attack = Attack_realW(params)
+            attack = Attack_realW(params,it)
             loss = UnTargeted_realW(model, label)
             print("use real world")
         x_adv = attack.optimise(loss)

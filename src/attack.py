@@ -18,7 +18,7 @@ class Attack_idealW:
             "l2":l2_score,
             # "loc": loc,
             # "patch": patch,
-            "process": self.process
+            #"process": self.process
         }
         if self.i  != None : 
             np.save(os.path.join(self.params["save_directory"],str(self.i )) + '.npy', data, allow_pickle=True)
