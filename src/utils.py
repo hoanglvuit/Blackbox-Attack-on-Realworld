@@ -67,7 +67,7 @@ def mutate(soln, mut):
     genes = soln.shape[0]
     length = soln.shape[1]
     y = np.random.randint(0, genes)
-    change = np.random.randint(0, length + 1)
+    change = np.random.randint(1, length + 1)
 
     selection = np.random.choice(length, size=change, replace=False)
 
