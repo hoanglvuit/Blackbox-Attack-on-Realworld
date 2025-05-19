@@ -33,14 +33,15 @@ While building upon the foundation of the CamoPatch paper, our work includes the
 
 The traffic sign dataset used for training the classifier and evaluating the adversarial patches was obtained from Kaggle.
 
-## Setup and Usage
-
-*(This section would typically include instructions on how to set up the environment, install dependencies, train the model, and run the adversarial attack code. Add your specific instructions here.)*
+## Reproduce result
 
 ```bash
-# Example commands (replace with your actual steps)
-git clone <repository_url>
-cd <repository_name>
-pip install -r requirements.txt
-python train_classifier.py
-python generate_patches.py
+$python run_experiement.py --mode "idealW" --save_directory "log/idealW" 
+$python run_experiement.py --mode "realW" --save_directory "log/realW" 
+```
+## Usage 
+
+```bash
+$python run.py --image_dir <image path> --true_label <class(int)> 
+$python display --npy_path <saved .npy path>
+```
