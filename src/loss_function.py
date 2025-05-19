@@ -8,7 +8,7 @@ class UnTargeted_idealW:
         self.true = true
 
     def __call__(self, img):
-        img_ = to_pytorch(img_)
+        img_ = to_pytorch(img)
         img_ = img_[None, :]
         preds = self.model.predict_mulprob(img_).flatten()
         y = int(torch.argmax(preds))
@@ -25,7 +25,7 @@ class UnTargeted_idealW:
 
 class UnTargeted_realW(UnTargeted_idealW): 
     def __call__(self, img):
-        img_ = to_pytorch(img_)
+        img_ = to_pytorch(img)
         img_ = img_[None, :]
         val, ind = self.model.predict_maxprob(img_)
 
