@@ -20,18 +20,18 @@ The core of this project relies on several key techniques introduced in the Camo
 
 * **Genetic Algorithm as a Search Strategy:** Instead of relying on gradient information from the target model (which requires a white-box setting), CamoPatch utilizes Genetic Algorithms (GA) as a powerful black-box optimization technique. GA evolves a population of potential patches over generations based on how well they fool the classifier.
 * **Semi-Transparent Circular Patch Representation:** The adversarial patch is modeled as a circular area with learned RGB values and a learned alpha (transparency) value. This allows the patch to be superimposed onto the original image content while potentially letting some of the underlying context show through.
-* **Perceptual Transparency Optimization:** After a patch successfully fools the classifier, an additional optimization step is performed. This step minimizes the L2 distance between the pixel values in the patched area and the original pixel values *before* the patch was applied. This post-hoc optimization helps the patch blend more naturally with its immediate surroundings, increasing its perceptual transparency.
+* **Perceptual Transparency Optimization:** After a patch successfully fools the classifier, an additional optimization step is performed. This step minimizes the L2 distance between the pixel values in the patched area and the original pixel values *before* the patch was applied. 
 
 ## Our Contributions
 
 While building upon the foundation of the CamoPatch paper, our work includes the following specific contributions:
 
-* **Evaluation on Traffic Sign Classification:** We specifically applied and evaluated this adversarial patching technique on a practical traffic sign classification task using a real-world dataset from Kaggle. This demonstrates the technique's effectiveness in a different domain compared to the original paper (which focused on object detection).
-* **Adaptation for "Real World Setting" Evaluation:** The original CamoPatch evaluation of potential patches within the Genetic Algorithm relies on having access to the full probability distribution or logits across *all* classes from the target classifier. This represents an "ideal world setting" which may not be available in real-world black-box scenarios where only the top-1 prediction and its confidence are returned (a "real world setting"). We adapted the fitness evaluation strategy within the Genetic Algorithm to function effectively using only the predicted class and its associated confidence, making the technique more broadly applicable in true black-box scenarios.
+* **Evaluation on Traffic Sign Classification:** We specifically applied and evaluated this adversarial patching technique on a practical traffic sign classification task using a real-world dataset from Kaggle. This demonstrates the technique's effectiveness in other dataset (original paper assess on ImageNet)
+* **Adaptation for "Real World Setting":** The original CamoPatch evaluation of potential patches within the Genetic Algorithm relies on having access to the full probability distribution or logits across *all* classes from the target classifier. This represents an "ideal world setting" which may not be available in real-world black-box scenarios where only the top-1 prediction and its confidence are returned (a "real world setting"). We adapted the fitness evaluation strategy within the Genetic Algorithm to function effectively using only the predicted class and its associated confidence, making the technique more broadly applicable in true black-box scenarios.
 
 ## Dataset
 
-The traffic sign dataset used for training the classifier and evaluating the adversarial patches was obtained from Kaggle. Specific details about the dataset (like the name or source link) would typically be included here.
+The traffic sign dataset used for training the classifier and evaluating the adversarial patches was obtained from Kaggle.
 
 ## Setup and Usage
 
