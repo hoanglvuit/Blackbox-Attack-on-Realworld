@@ -44,9 +44,6 @@ if __name__ == "__main__":
     print("Nhãn:", set(y))
 
     for it, (x, label) in enumerate(zip(X, y)): 
-        if mode == "idealW" : 
-            loss = UnTargeted_idealW(model, label)
-        else: loss = UnTargeted_realW(model, label)
         x = pytorch_switch(x).detach().numpy()
         params = {
             "x": x,
@@ -62,6 +59,11 @@ if __name__ == "__main__":
             "temp": args.temp
         }
         if mode == "idealW": 
-            attack = Attack_idealW(params, it)
-        else: attack = Attack_realW(params, it)
-        attack.optimise(loss)
+            attack = Attack_idealW(params)
+            loss = UnTargeted_idealW(model, label)
+            print("use ideal world")
+        else: 
+            attack = Attack_realW(params)
+            loss = UnTargeted_realW(model, label)
+            print("use real world")
+        x_adv = attack.optimise(loss)
