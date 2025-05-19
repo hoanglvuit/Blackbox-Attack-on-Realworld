@@ -1,6 +1,6 @@
 import torch
 import math
-from utils import to_pytorch
+from .utils import to_pytorch
 
 class UnTargeted_idealW:
     def __init__(self, model, true):

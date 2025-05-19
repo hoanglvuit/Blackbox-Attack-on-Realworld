@@ -1,7 +1,7 @@
 import numpy as np 
 import math
 from tqdm import tqdm 
-from utils import *
+from .utils import *
 
 
 class Attack_idealW:
@@ -29,7 +29,7 @@ class Attack_idealW:
         # get params
         x = self.params["x"]
         c, h, w = self.params["c"], self.params["h"], self.params["w"]
-        s = self.process["s"] 
+        s = self.params["s"] 
 
         # initialize
         patch_geno = np.random.rand(self.params["N"], 7)
