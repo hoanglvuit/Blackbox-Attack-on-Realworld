@@ -1,12 +1,21 @@
 from torchvision import transforms
 import cv2
 import numpy as np 
+import torch
+
+def pytorch_switch(tensor_image):
+    return tensor_image.permute(1, 2, 0)
+
+
+def to_pytorch(tensor_image):
+    return torch.from_numpy(tensor_image).permute(2, 0, 1)
 
 
 transform = transforms.Compose([
   transforms.Resize((128,128)), 
   transforms.ToTensor(),
 ])
+
 
 def l2(adv_patch, orig_patch):
     assert adv_patch.shape == orig_patch.shape
@@ -69,3 +78,5 @@ def mutate(soln, mut):
         new_specie[y, selection] = np.clip(new_specie[y, selection], 0, 1)
 
     return new_specie
+
+

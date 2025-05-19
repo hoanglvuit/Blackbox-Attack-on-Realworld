@@ -10,9 +10,10 @@ class Attack_idealW:
         self.process = []
         self.i = i 
 
-    def completion_procedure(self, adversarial, x_adv, queries, loc, patch, loss_function,l2_score):
+    def completion_procedure(self, success, x_adv, queries, loc, patch, loss_function,l2_score):
         data = {
             "orig": self.params["x"],
+            "success": success,
             "adversary": x_adv,
             "l2":l2_score,
             # "loc": loc,
@@ -40,7 +41,7 @@ class Attack_idealW:
         x_adv = x.copy()
         x_adv[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch
         #x_adv = np.clip(x_adv, 0., 1.)
-        adversarial, loss = loss_function(x_adv)
+        success, loss = loss_function(x_adv)
         l2_curr = l2(adv_patch=patch, orig_patch=x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy())
 
         patch_counter = 0
@@ -55,16 +56,16 @@ class Attack_idealW:
                 #x_adv_new = np.clip(x_adv_new, 0., 1.)
 
                 # evaluate new sol 
-                adversarial_new, loss_new = loss_function(x_adv_new)
+                success_new, loss_new = loss_function(x_adv_new)
 
                 orig_patch = x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy()
                 l2_new = l2(adv_patch=patch_new, orig_patch=orig_patch)
 
-                if adversarial == True and adversarial_new == True:
+                if success == True and success_new == True:
 
                     if l2_new < l2_curr:
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         patch = patch_new
                         patch_geno = patch_new_geno
                         x_adv = x_adv_new
@@ -72,7 +73,7 @@ class Attack_idealW:
                 else : 
                     if loss_new < loss: 
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         patch = patch_new
                         patch_geno = patch_new_geno
                         x_adv = x_adv_new
@@ -90,15 +91,15 @@ class Attack_idealW:
                 x_adv_new = np.clip(x_adv_new, 0., 1.)
                 # evaluate new solution
 
-                adversarial_new, loss_new = loss_function(x_adv_new)
+                success_new, loss_new = loss_function(x_adv_new)
 
                 orig_patch_new = x[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :].copy()
                 l2_new = l2(adv_patch=patch, orig_patch=orig_patch_new)
 
-                if adversarial == True and adversarial_new == True:
+                if success == True and success_new == True:
                     if l2_new < l2_curr:
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
@@ -109,14 +110,14 @@ class Attack_idealW:
 
                     if loss_new < loss:# or np.random.rand() < metropolis:  # minimization # first check
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
 
             self.process.append([loc, patch_geno])
         l2_score = l2(self.params["x"],x_adv)
-        self.completion_procedure(adversarial, x_adv, it, loc, patch, loss_function,l2_score)
+        self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
         return 
 
 
@@ -137,7 +138,7 @@ class Attack_realW(Attack_idealW):
         x_adv = x.copy()
         x_adv[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch
         #x_adv = np.clip(x_adv, 0., 1.)
-        adversarial, loss = loss_function(x_adv)
+        success, loss = loss_function(x_adv)
         l2_curr = l2(adv_patch=patch, orig_patch=x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy())
 
         patch_counter = 0
@@ -152,24 +153,24 @@ class Attack_realW(Attack_idealW):
                 #x_adv_new = np.clip(x_adv_new, 0., 1.)
 
                 # evaluate new sol 
-                adversarial_new, loss_new = loss_function(x_adv_new)
+                success_new, loss_new = loss_function(x_adv_new)
 
                 orig_patch = x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy()
                 l2_new = l2(adv_patch=patch_new, orig_patch=orig_patch)
 
-                if adversarial == True and adversarial_new == True:
+                if success == True and success_new == True:
 
                     if l2_new < l2_curr:
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         patch = patch_new
                         patch_geno = patch_new_geno
                         x_adv = x_adv_new
                         l2_curr = l2_new
 
-                elif adversarial_new == True:
+                elif success_new == True:
                     loss = loss_new
-                    adversarial = adversarial_new
+                    success = success_new
                     patch = patch_new
                     patch_geno = patch_new_geno
                     x_adv = x_adv_new
@@ -177,7 +178,7 @@ class Attack_realW(Attack_idealW):
                 else : 
                     if loss_new < loss: # minimization
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         patch = patch_new
                         patch_geno = patch_new_geno
                         x_adv = x_adv_new
@@ -195,22 +196,22 @@ class Attack_realW(Attack_idealW):
                 x_adv_new = np.clip(x_adv_new, 0., 1.)
                 # evaluate new solution
 
-                adversarial_new, loss_new = loss_function(x_adv_new)
+                success_new, loss_new = loss_function(x_adv_new)
 
                 orig_patch_new = x[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :].copy()
                 l2_new = l2(adv_patch=patch, orig_patch=orig_patch_new)
 
-                if adversarial == True and adversarial_new == True:
+                if success == True and success_new == True:
                     if l2_new < l2_curr:
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
 
-                elif adversarial_new == True:
+                elif success_new == True:
                     loss = loss_new
-                    adversarial = adversarial_new
+                    success = success_new
                     loc = loc_new
                     x_adv = x_adv_new
                     l2_curr = l2_new
@@ -221,7 +222,7 @@ class Attack_realW(Attack_idealW):
 
                     if loss_new < loss:# or np.random.rand() < metropolis:  # minimization # first check
                         loss = loss_new
-                        adversarial = adversarial_new
+                        success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
@@ -230,5 +231,5 @@ class Attack_realW(Attack_idealW):
 
          # save result   
         l2_score = l2(self.params["x"],x_adv)
-        self.completion_procedure(adversarial, x_adv, it, loc, patch, loss_function,l2_score)
+        self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
         return 
