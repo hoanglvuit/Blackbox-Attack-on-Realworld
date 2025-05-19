@@ -120,7 +120,7 @@ class Attack_idealW:
         return 
 
 
-class Attack_realW(Attack_ideaW):
+class Attack_realW(Attack_idealW):
     def optimise(self, loss_function):
         # get params
         x = self.params["x"]
