@@ -114,8 +114,8 @@ class Attack_idealW:
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
-
             self.process.append([loc, patch_geno])
+
         l2_score = l2(self.params["x"],x_adv)
         self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
         return 
