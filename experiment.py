@@ -21,6 +21,8 @@ if __name__ == "__main__":
     parser.add_argument("--save_directory", type=str,default="result/idealW", help="Where to store the .npy files with the results")
     args = parser.parse_args()
     mode = args.mode
+    saved_folder = args.save_directory
+    os.makedirs(saved_folder, exist_ok=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = SignNN().to(device)
@@ -42,7 +44,7 @@ if __name__ == "__main__":
     print("Nhãn:", set(y))
 
     for it, (x, label) in enumerate(zip(X, y)): 
-        if mode == "idealD" : 
+        if mode == "idealW" : 
             loss = UnTargeted_idealW(model, label)
         else: loss = UnTargeted_realW(model, label)
         x = pytorch_switch(x).detach().numpy()
@@ -50,7 +52,7 @@ if __name__ == "__main__":
             "x": x,
             "s": args.s,
             "n_queries": args.queries,
-            "save_directory": args.save_directory + ".npy",
+            "save_directory": saved_folder,
             "c": x.shape[2],
             "h": x.shape[0],
             "w": x.shape[1],

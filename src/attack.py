@@ -2,7 +2,7 @@ import numpy as np
 import math
 from tqdm import tqdm 
 from .utils import *
-
+import os
 
 class Attack_idealW:
     def __init__(self, params,i=None):
@@ -21,9 +21,9 @@ class Attack_idealW:
             "process": self.process
         }
         if self.i  != None : 
-            np.save(self.params["save_directory"] + str(self.i ), data, allow_pickle=True)
+            np.save(os.path.join(self.params["save_directory"],str(self.i )) + '.npy', data, allow_pickle=True)
         else : 
-            np.save(self.params["save_directory"], data, allow_pickle=True)
+            np.save(os.path.join(self.params["save_directory"], 'ex') +'.npy', data, allow_pickle=True)
 
     def optimise(self, loss_function):
         # get params

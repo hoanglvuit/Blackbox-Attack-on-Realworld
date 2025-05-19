@@ -9,6 +9,7 @@ from PIL import Image
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("--mode", type=str, default="idealW", help="Attack on ideal world or real world")
     parser.add_argument("--N", type=int, default=100)
     parser.add_argument("--temp", type=float, default=300.)
     parser.add_argument("--mut", type=float, default=0.3)
@@ -18,22 +19,26 @@ if __name__ == "__main__":
 
     parser.add_argument("--image_dir", type=str, default="data/TEST/0/000_1_0003_1_j.png", help="Image File path")
     parser.add_argument("--true_label", type=int,default=0, help="Number of the correct label of ImageNet inputted image")
-    parser.add_argument("--save_directory", type=str,default="result/ex1", help="Where to store the .npy files with the results")
+    parser.add_argument("--save_directory", type=str,default="result", help="Where to store the .npy files with the results")
     args = parser.parse_args()
+    mode = args.mode
 
-    model = SignNN()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = SignNN().to(device)
     model.eval() 
     model.load_state_dict(torch.load('saved_model/best_f1.pt'))
     image_dir = args.image_dir
     x_test = transform(Image.open(image_dir))
 
-    loss = UnTargeted_idealW(model, args.true_label)
+    if mode == "idealD" : 
+        loss = UnTargeted_idealW(model, args.true_label)
+    else: loss = UnTargeted_realW(model, args.true_label)
     x = pytorch_switch(x_test).detach().numpy()
     params = {
         "x": x,
         "s": args.s,
         "n_queries": args.queries,
-        "save_directory": args.save_directory + ".npy",
+        "save_directory": args.save_directory ,
         "c": x.shape[2],
         "h": x.shape[0],
         "w": x.shape[1],
@@ -42,5 +47,7 @@ if __name__ == "__main__":
         "mut": args.mut,
         "temp": args.temp
     }
-    attack = Attack_idealW(params)
+    if mode == "idealW": 
+        attack = Attack_idealW(params)
+    else: attack = Attack_realW(params)
     attack.optimise(loss)
