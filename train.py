@@ -33,6 +33,7 @@ train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
 # valid loader
 valid_data = datasets.ImageFolder(root='data/TEST', transform=transform)
 valid_loader = DataLoader(valid_data, batch_size=32, shuffle=False)
+print(train_data.class_to_idx)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 

@@ -88,7 +88,7 @@ class Attack_idealW:
                 loc_new = update_location(loc_new, sh_i, h, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :] = patch
-                x_adv_new = np.clip(x_adv_new, 0., 1.)
+                #x_adv_new = np.clip(x_adv_new, 0., 1.)
                 # evaluate new solution
 
                 success_new, loss_new = loss_function(x_adv_new)
@@ -118,7 +118,7 @@ class Attack_idealW:
 
         l2_score = l2(self.params["x"],x_adv)
         self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
-        return 
+        return x_adv
 
 
 class Attack_realW(Attack_idealW):
@@ -126,7 +126,7 @@ class Attack_realW(Attack_idealW):
         # get params
         x = self.params["x"]
         c, h, w = self.params["c"], self.params["h"], self.params["w"]
-        s = self.process["s"] 
+        s = self.params["s"] 
 
         # initialize
         patch_geno = np.random.rand(self.params["N"], 7)
@@ -232,4 +232,4 @@ class Attack_realW(Attack_idealW):
          # save result   
         l2_score = l2(self.params["x"],x_adv)
         self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
-        return 
+        return x_adv

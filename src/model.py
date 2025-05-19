@@ -6,13 +6,18 @@ class SignNN(nn.Module):
     def __init__(self): 
         super(SignNN, self).__init__() 
         self.model = nn.Sequential(
-            nn.Conv2d(3, 8, kernel_size=3), 
-            nn.BatchNorm2d(8),
+            nn.Conv2d(3, 4, kernel_size=3), 
+            nn.BatchNorm2d(4),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2), 
 
+            nn.Conv2d(4, 8, kernel_size=3), 
+            nn.BatchNorm2d(8), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+
             nn.Conv2d(8, 16, kernel_size=3), 
-            nn.BatchNorm2d(16), 
+            nn.BatchNorm2d(16),  
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
 
@@ -22,17 +27,12 @@ class SignNN(nn.Module):
             nn.MaxPool2d(kernel_size=2),
 
             nn.Conv2d(32, 64, kernel_size=3), 
-            nn.BatchNorm2d(64),  
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2),
-
-            nn.Conv2d(64, 128, kernel_size=3), 
-            nn.BatchNorm2d(128), 
+            nn.BatchNorm2d(64), 
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
 
             nn.Flatten(),
-            nn.Linear(4*128, 32),
+            nn.Linear(4*64, 32),
             nn.ReLU(),
             nn.Dropout(0.1),
             nn.Linear(32, 9)

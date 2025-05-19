@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument("--queries", type=int, default=10000)
     parser.add_argument("--li", type=int, default=4)
 
-    parser.add_argument("--image_dir", type=str, default="data/TEST/0/000_1_0003_1_j.png", help="Image File path")
+    parser.add_argument("--image_dir", type=str, default="data/TEST/0/000_1_0004_1_j.png", help="Image File path")
     parser.add_argument("--true_label", type=int,default=0, help="Number of the correct label of ImageNet inputted image")
     parser.add_argument("--save_directory", type=str,default="result", help="Where to store the .npy files with the results")
     args = parser.parse_args()
@@ -27,12 +27,14 @@ if __name__ == "__main__":
     model = SignNN().to(device)
     model.eval() 
     model.load_state_dict(torch.load('saved_model/best_f1.pt'))
+
     image_dir = args.image_dir
     x_test = transform(Image.open(image_dir))
+    x_test_4d = x_test[None,:]
+    ori_conf,ori_pred = model.predict_maxprob(x_test_4d)
+    print(f"Original prediction: {ori_pred}, with {ori_conf} confidence")
+    assert ori_pred == args.true_label, "Not need to attack"
 
-    if mode == "idealD" : 
-        loss = UnTargeted_idealW(model, args.true_label)
-    else: loss = UnTargeted_realW(model, args.true_label)
     x = pytorch_switch(x_test).detach().numpy()
     params = {
         "x": x,
@@ -45,9 +47,17 @@ if __name__ == "__main__":
         "N": args.N,
         "update_loc_period": args.li,
         "mut": args.mut,
-        "temp": args.temp
+        "temp": args.temp, 
     }
     if mode == "idealW": 
         attack = Attack_idealW(params)
-    else: attack = Attack_realW(params)
-    attack.optimise(loss)
+        loss = UnTargeted_idealW(model, args.true_label)
+        print("use ideal world")
+    else: 
+        attack = Attack_realW(params)
+        loss = UnTargeted_realW(model, args.true_label)
+        print("use real world")
+    x_adv = attack.optimise(loss)
+    x_adv = to_pytorch(x_adv)[None,:]
+    lat_conf, lat_pred = model.predict_maxprob(x_adv) 
+    print(f"Latter prediction: {lat_pred}, with {lat_conf} confidence")

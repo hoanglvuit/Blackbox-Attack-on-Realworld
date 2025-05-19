@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from src.utils import to_pytorch
-
+from src.model import SignNN
+import torch
 
 # Load dữ liệu từ file
-data = np.load('result\ex1.npy', allow_pickle=True).item()
+data = np.load('result\ex.npy', allow_pickle=True).item()
 adv = data['adversary']
 orig = data['orig']
-success = data['success']
-print(success)
 
 # display
 plt.imshow(adv)            
