@@ -42,7 +42,8 @@ class SignNN(nn.Module):
   
     def forward(self, x):
         x = x.to(device)  
-        x_new = (x - self.mu) / self.sigma
+        #x_new = (x - self.mu) / self.sigma
+        x_new = x
         return self.model(x_new)
 
     def predict_mulprob(self, x):
@@ -51,6 +52,7 @@ class SignNN(nn.Module):
     def predict_maxprob(self, x): 
         x = x.to(device) 
         x_new = (x - self.mu) / self.sigma
+        x_new = x
         pred = self.model(x_new) 
         max_val, max_ind = torch.max(pred, dim=1)
         return max_val.item(), max_ind.item()

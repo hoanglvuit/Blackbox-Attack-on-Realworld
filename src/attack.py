@@ -4,7 +4,7 @@ from tqdm import tqdm
 from utils import *
 
 
-class Attack_ideaW:
+class Attack_idealW:
     def __init__(self, params,i=None):
         self.params = params
         self.process = []
