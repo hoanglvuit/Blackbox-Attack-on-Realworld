@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default="idealW", help="Attack on ideal world or real world")
     parser.add_argument("--N", type=int, default=100)
-    parser.add_argument("--temp", type=float, default=300.)
+    parser.add_argument("--temp", type=float, default=None)
     parser.add_argument("--mut", type=float, default=0.3)
     parser.add_argument("--s", type=int, default=20)
     parser.add_argument("--queries", type=int, default=10000)
