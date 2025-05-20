@@ -40,7 +40,7 @@ class Attack_idealW:
 
         x_adv = x.copy()
         x_adv[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch
-        #x_adv = np.clip(x_adv, 0., 1.)
+        x_adv = np.clip(x_adv, 0., 1.)
         success, loss = loss_function(x_adv)
         l2_curr = l2(adv_patch=patch, orig_patch=x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy())
 
@@ -53,7 +53,7 @@ class Attack_idealW:
                 patch_new = render(patch_new_geno, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch_new
-                #x_adv_new = np.clip(x_adv_new, 0., 1.)
+                x_adv_new = np.clip(x_adv_new, 0., 1.)
 
                 # evaluate new sol 
                 success_new, loss_new = loss_function(x_adv_new)
@@ -88,7 +88,7 @@ class Attack_idealW:
                 loc_new = update_location(loc_new, sh_i, h, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :] = patch
-                #x_adv_new = np.clip(x_adv_new, 0., 1.)
+                x_adv_new = np.clip(x_adv_new, 0., 1.)
                 # evaluate new solution
 
                 success_new, loss_new = loss_function(x_adv_new)
@@ -104,16 +104,22 @@ class Attack_idealW:
                         x_adv = x_adv_new
                         l2_curr = l2_new
                 else : 
-                    diff = loss_new - loss
-                    curr_temp = self.params["temp"] / (it +1)
-                    metropolis = math.exp(-diff/curr_temp)
-
-                    if loss_new < loss:# or np.random.rand() < metropolis:  # minimization # first check
+                    if loss_new < loss:
                         loss = loss_new
                         success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
+                    elif self.params["temp"] != None: 
+                        diff = loss_new - loss
+                        curr_temp = self.params["temp"] / (it +1)
+                        metropolis = math.exp(-diff/curr_temp)
+                        if np.random.rand() < metropolis: 
+                            loss = loss_new
+                            success = success_new
+                            loc = loc_new
+                            x_adv = x_adv_new
+                            l2_curr = l2_new      
             self.process.append([loc, patch_geno])
 
         l2_score = l2(self.params["x"],x_adv)
@@ -137,7 +143,7 @@ class Attack_realW(Attack_idealW):
 
         x_adv = x.copy()
         x_adv[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch
-        #x_adv = np.clip(x_adv, 0., 1.)
+        x_adv = np.clip(x_adv, 0., 1.)
         success, loss = loss_function(x_adv)
         l2_curr = l2(adv_patch=patch, orig_patch=x[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :].copy())
 
@@ -150,7 +156,7 @@ class Attack_realW(Attack_idealW):
                 patch_new = render(patch_new_geno, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch_new
-                #x_adv_new = np.clip(x_adv_new, 0., 1.)
+                x_adv_new = np.clip(x_adv_new, 0., 1.)
 
                 # evaluate new sol 
                 success_new, loss_new = loss_function(x_adv_new)
@@ -216,16 +222,22 @@ class Attack_realW(Attack_idealW):
                     x_adv = x_adv_new
                     l2_curr = l2_new
                 else : 
-                    diff = loss_new - loss
-                    curr_temp = self.params["temp"] / (it +1)
-                    metropolis = math.exp(-diff/curr_temp)
-
-                    if loss_new < loss:# or np.random.rand() < metropolis:  # minimization # first check
+                    if loss_new < loss:
                         loss = loss_new
                         success = success_new
                         loc = loc_new
                         x_adv = x_adv_new
                         l2_curr = l2_new
+                    elif self.params["temp"] != None: 
+                        diff = loss_new - loss
+                        curr_temp = self.params["temp"] / (it +1)
+                        metropolis = math.exp(-diff/curr_temp)
+                        if np.random.rand() < metropolis: 
+                            loss = loss_new
+                            success = success_new
+                            loc = loc_new
+                            x_adv = x_adv_new
+                            l2_curr = l2_new 
 
             self.process.append([loc, patch_geno])
 
