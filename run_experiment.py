@@ -67,7 +67,7 @@ if __name__ == "__main__":
             attack = Attack_idealW(params,it)
             loss = UnTargeted_idealW(model, label)
             print("use ideal world")
-        else: 
+        elif mode == "realW": 
             attack = Attack_realW(params,it)
             loss = UnTargeted_realW(model, label)
             print("use real world")
