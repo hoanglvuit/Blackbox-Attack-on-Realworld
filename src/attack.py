@@ -181,7 +181,7 @@ class Attack_realW(Attack_idealW):
                     patch_geno = patch_new_geno
                     x_adv = x_adv_new
                     l2_curr = l2_new
-                else : 
+                elif success ==False and success_new == False : 
                     if loss_new < loss: # minimization
                         loss = loss_new
                         success = success_new
@@ -221,7 +221,7 @@ class Attack_realW(Attack_idealW):
                     loc = loc_new
                     x_adv = x_adv_new
                     l2_curr = l2_new
-                else : 
+                elif success ==False and success_new == False :  
                     if loss_new < loss:
                         loss = loss_new
                         success = success_new
