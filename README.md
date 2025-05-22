@@ -46,5 +46,4 @@ $python run_experiement.py --mode "realW" --save_directory "log/realW"
 
 ```bash
 $python run.py --image_dir <image path> --true_label <class(int)> 
-$python display --npy_path <saved .npy path>
 ```
