@@ -3,6 +3,7 @@ from src.model import SignNN
 from src.loss_function import UnTargeted_idealW, UnTargeted_realW
 from src.attack import Attack_idealW, Attack_realW
 import argparse
+import matplotlib.pyplot as plt
 from src.utils import *
 from PIL import Image
 
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     x_test = transform(Image.open(image_dir))
     x_test_4d = x_test[None,:]
     ori_conf,ori_pred = model.predict_maxprob(x_test_4d)
-    print(f"Original prediction: {ori_pred}, with {ori_conf} confidence")
+    print(f"Original prediction: {index_to_labels[ori_pred]}, with {ori_conf} confidence")
     assert ori_pred == args.true_label, "Not need to attack"
 
     x = pytorch_switch(x_test).detach().numpy()
@@ -57,7 +58,33 @@ if __name__ == "__main__":
         attack = Attack_realW(params)
         loss = UnTargeted_realW(model, args.true_label)
         print("use real world")
+
     x_adv = attack.optimise(loss)
+
+    # predict
     x_adv = to_pytorch(x_adv)[None,:]
     lat_conf, lat_pred = model.predict_maxprob(x_adv) 
-    print(f"Latter prediction: {lat_pred}, with {lat_conf} confidence")
+    print(f"Latter prediction: {index_to_labels[lat_pred]}, with {lat_conf} confidence")
+
+    # visualize 
+    x_adv = x_adv.squeeze()
+    x_adv = pytorch_switch(x_adv).detach().numpy() 
+    
+    _, (ax_orig, ax_new, ax_diff) = plt.subplots(1, 3, figsize=(15, 5))
+    diff_arr = np.abs(x - x_adv).mean(axis=-1)
+    diff_arr = diff_arr / diff_arr.max()
+
+    ax_orig.imshow(x)
+    ax_new.imshow(x_adv)
+    ax_diff.imshow(diff_arr, cmap='gray')
+
+    ax_orig.axis("off")
+    ax_new.axis("off")
+    ax_diff.axis("off")
+
+    ax_orig.set_title(f"No Attack: {index_to_labels[args.true_label]}")
+    ax_new.set_title(f"Adversarial Attack: {index_to_labels[lat_pred]}")
+    ax_diff.set_title("Difference")
+
+    plt.savefig("examples/attack_visualization.png", bbox_inches='tight', dpi=300)
+    plt.show()

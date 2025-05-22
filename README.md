@@ -4,6 +4,8 @@ This project explores the generation of perceptually transparent adversarial pat
 
 ## Overview
 
+![Real World setting run 20000 queries]('examples/attack_visualization.png')
+
 Adversarial patches are physical objects or digital overlays that can cause deep learning models, particularly image classifiers, to misclassify inputs. Unlike traditional pixel-wise adversarial attacks, patches are localized and can be applied to physical objects in the real world.
 
 Inspired by the innovative techniques presented in the CamoPatch paper, this project aims to generate adversarial patches that are not only effective at fooling a traffic sign classifier but are also designed to be more perceptually transparent, blending better with the background context they replace.

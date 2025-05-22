@@ -3,6 +3,19 @@ import cv2
 import numpy as np 
 import torch
 
+
+index_to_labels = [ 
+        "Speed Limit 5 km/h", 
+        "Speed Limit 15 km/h", 
+        "Speed Limit 30 km/h", 
+        "Speed Limit 40 km/h", 
+        "Speed Limit 50 km/h", 
+        "Speed Limit 60 km/h", 
+        "Speed Limit 70 km/h", 
+        "Speed Limit 80 km/h", 
+        "No car allowed"
+    ]
+
 def pytorch_switch(tensor_image):
     return tensor_image.permute(1, 2, 0)
 
