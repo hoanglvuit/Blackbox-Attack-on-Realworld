@@ -37,13 +37,20 @@ The traffic sign dataset used for training the classifier and evaluating the adv
 
 ## Reproduce result
 
+### Run experiement
 ```bash
 #$python train.py --schedule --weight_decay 0.05
 $python run_experiement.py --mode "idealW" --save_directory "log/idealW" 
 $python run_experiement.py --mode "realW" --save_directory "log/realW" 
 ```
+
+### See report
+```bash
+$python summary.py --result_folder <path to folder containing .npy files> 
+```
+
 ## Usage 
 
 ```bash
-$python run.py --image_dir <image path> --true_label <class(int)> 
+$python run.py --image_dir <image path> --true_label <int> 
 ```
