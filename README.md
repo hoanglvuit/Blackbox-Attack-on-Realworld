@@ -4,7 +4,7 @@ This project explores the generation of perceptually transparent adversarial pat
 
 ## Overview
 
-![Real World setting run 20000 queries]('examples/attack_visualization.png')
+![Real World setting run 20000 queries](examples/attack_visualization.png)
 
 Adversarial patches are physical objects or digital overlays that can cause deep learning models, particularly image classifiers, to misclassify inputs. Unlike traditional pixel-wise adversarial attacks, patches are localized and can be applied to physical objects in the real world.
 
