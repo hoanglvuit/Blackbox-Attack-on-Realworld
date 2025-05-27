@@ -47,7 +47,9 @@ if __name__ == "__main__":
         # Remove false prediction 
         val, ind = model.predict_maxprob(x[None,:]) 
         if ind != label : 
+            print(ind, label)
             continue
+
 
         x = pytorch_switch(x).detach().numpy()
         params = {

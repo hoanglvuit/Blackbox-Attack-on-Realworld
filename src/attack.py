@@ -123,7 +123,7 @@ class Attack_idealW:
             self.process.append([loc, patch_geno])
 
         l2_score = l2(self.params["x"],x_adv)
-        self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
+        self.completion_procedure(success, x_adv,n_queries, loc, patch, loss_function,l2_score)
         return x_adv
 
 
@@ -243,5 +243,5 @@ class Attack_realW(Attack_idealW):
 
          # save result   
         l2_score = l2(self.params["x"],x_adv)
-        self.completion_procedure(success, x_adv, it, loc, patch, loss_function,l2_score)
+        self.completion_procedure(success, x_adv, n_queries, loc, patch, loss_function,l2_score)
         return x_adv
