@@ -31,6 +31,8 @@ While building upon the foundation of the CamoPatch paper, our work includes the
 * **Evaluation on Traffic Sign Classification:** We specifically applied and evaluated this adversarial patching technique on a practical traffic sign classification task using a real-world dataset from Kaggle. This demonstrates the technique's effectiveness in other dataset (original paper assess on ImageNet)
 * **Adaptation for "Real World Setting":** The original CamoPatch evaluation of potential patches within the Genetic Algorithm relies on having access to the full probability distribution or logits across *all* classes from the target classifier. This represents an "ideal world setting" which may not be available in real-world black-box scenarios where only the top-1 prediction and its confidence are returned (a "real world setting"). We adapted the fitness evaluation strategy within the Genetic Algorithm to function effectively using only the predicted class and its associated confidence, making the technique more broadly applicable in true black-box scenarios.
 
+![Compare between two settings](examples/compare.png)
+
 ## Dataset
 
 The traffic sign dataset used for training the classifier and evaluating the adversarial patches was obtained from Kaggle.
