@@ -51,7 +51,7 @@ class Attack_idealW:
         for it in tqdm(range(1, n_queries)):
             patch_counter += 1
             if patch_counter < update_loc_period:
-                patch_new_geno = mutate(patch_geno, self.params["mut"],seed)
+                patch_new_geno = mutate(patch_geno, self.params["mut"])
                 patch_new = render(patch_new_geno, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch_new
@@ -87,7 +87,7 @@ class Attack_idealW:
                 # location update
                 sh_i = int(max(sh_selection(n_queries, it) * h, 0))
                 loc_new = loc.copy()
-                loc_new = update_location(loc_new, sh_i, h, s, seed)
+                loc_new = update_location(loc_new, sh_i, h, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :] = patch
                 x_adv_new = np.clip(x_adv_new, 0., 1.)
@@ -156,7 +156,7 @@ class Attack_realW(Attack_idealW):
         for it in tqdm(range(1, n_queries)):
             patch_counter += 1
             if patch_counter < update_loc_period:
-                patch_new_geno = mutate(patch_geno, self.params["mut"], seed)
+                patch_new_geno = mutate(patch_geno, self.params["mut"])
                 patch_new = render(patch_new_geno, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc[0]: loc[0] + s, loc[1]: loc[1] + s, :] = patch_new
@@ -200,7 +200,7 @@ class Attack_realW(Attack_idealW):
                 # location update
                 sh_i = int(max(sh_selection(n_queries, it) * h, 0))
                 loc_new = loc.copy()
-                loc_new = update_location(loc_new, sh_i, h, s, seed)
+                loc_new = update_location(loc_new, sh_i, h, s)
                 x_adv_new = x.copy()
                 x_adv_new[loc_new[0]: loc_new[0] + s, loc_new[1]: loc_new[1] + s, :] = patch
                 x_adv_new = np.clip(x_adv_new, 0., 1.)

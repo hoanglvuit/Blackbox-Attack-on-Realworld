@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument("--s", type=int, default=20)
     parser.add_argument("--queries", type=int, default=10000)
     parser.add_argument("--li", type=int, default=4)
-
+    parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--image_dir", type=str, default="data/TEST/0/000_1_0004_1_j.png", help="Image File path")
     parser.add_argument("--true_label", type=int,default=0, help="Number of the correct label of ImageNet inputted image")
     parser.add_argument("--save_directory", type=str,default="log", help="Where to store the .npy files with the results")
@@ -49,6 +49,7 @@ if __name__ == "__main__":
         "update_loc_period": args.li,
         "mut": args.mut,
         "temp": args.temp, 
+        "seed": args.seed
     }
     if mode == "idealW": 
         attack = Attack_idealW(params)
