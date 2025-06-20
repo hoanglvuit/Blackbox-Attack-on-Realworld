@@ -40,7 +40,8 @@ def sh_selection(n_queries, iter):
     return t
 
 
-def update_location(loc_new, h_i, h, s):
+def update_location(loc_new, h_i, h, s, seed):
+    np.random.seed(seed)
     loc_new += np.random.randint(low=-h_i, high=h_i + 1, size=(2,))
     loc_new = np.clip(loc_new, 0, h - s)
     return loc_new
@@ -64,7 +65,7 @@ def render(x, w):
     return phenotype/255.
 
 
-def mutate(soln, mut):
+def mutate(soln, mut, seed):
     """Mutates specie for evolution.
 
     Args:
@@ -74,6 +75,7 @@ def mutate(soln, mut):
         New Specie class, that has been mutated.
         :param soln:
     """
+    np.random.seed(seed)
     new_specie = soln.copy()
 
     # Randomization for Evolution

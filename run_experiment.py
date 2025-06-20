@@ -17,6 +17,8 @@ if __name__ == "__main__":
     parser.add_argument("--s", type=int, default=20)
     parser.add_argument("--queries", type=int, default=10000)
     parser.add_argument("--li", type=int, default=4)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--nb_example", type=int, default=100)
     parser.add_argument("--data_dicrectory", type=str, default="data/TEST", help="Image File directory")
     parser.add_argument("--save_directory", type=str,default="log/idealW", help="Where to store the .npy files with the results")
     args = parser.parse_args()
@@ -43,12 +45,17 @@ if __name__ == "__main__":
     print("Số lượng ảnh:", len(X))
     print("Shape ảnh:", X[0].shape)
     print("Nhãn:", set(y))
+
+    count = 0
     for it, (x, label) in enumerate(zip(X, y)):
+        if count > args.nb_example: 
+            break
         # Remove false prediction 
         val, ind = model.predict_maxprob(x[None,:]) 
         if ind != label : 
             print(ind, label)
             continue
+        count += 1
 
 
         x = pytorch_switch(x).detach().numpy()
@@ -63,7 +70,8 @@ if __name__ == "__main__":
             "N": args.N,
             "update_loc_period": args.li,
             "mut": args.mut,
-            "temp": args.temp
+            "temp": args.temp,
+            "seed": args.seed,
         }
         if mode == "idealW": 
             attack = Attack_idealW(params,it)
